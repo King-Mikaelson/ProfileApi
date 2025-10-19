@@ -134,19 +134,4 @@ ProfileApi/
 
 ---
 
-## Submission Instructions
-
-1. Verify the API works from multiple networks.
-
-2. Run `/stage-zero-backend` on the **#track-backend** Slack channel.
-
-3. Provide the following:
-
-   * Your **server IP or URL** (e.g., `http://<your-ip>:5000/me`)
-   * **GitHub repo link**
-   * **Full name**
-   * **Email**
-   * **Stack** (C#/.NET)
-
-
 > Developed as part of **HNG Internship Backend Wizards — Stage 0 Task**
