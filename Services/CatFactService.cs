@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
-using System.Text.Json;
-using Microsoft.Extensions.Logging;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace ProfileApi.Services
@@ -8,64 +7,32 @@ namespace ProfileApi.Services
     public class CatFactService
     {
         private readonly HttpClient _httpClient;
-        private readonly ILogger<CatFactService> _logger;
 
-        // fallback message used when external API fails
-        private const string FALLBACK = "Could not fetch cat fact at this time.";
-
-        public CatFactService(HttpClient httpClient, ILogger<CatFactService> logger)
+        public CatFactService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _logger = logger;
-
-            // Defensive: ensure a reasonable timeout even if not set elsewhere
-            if (_httpClient.Timeout == System.Threading.Timeout.InfiniteTimeSpan)
-            {
-                _httpClient.Timeout = TimeSpan.FromSeconds(5);
-            }
+            _httpClient.Timeout = TimeSpan.FromSeconds(5); // Set timeout for API call
         }
 
-        /// <summary>
-        /// Returns a random cat fact or a safe fallback if the external API fails.
-        /// Does not throw; logs errors and returns fallback string.
-        /// </summary>
-        public async Task<string> GetRandomFactAsync()
+        public async Task<(bool Success, string Fact)> GetRandomFactAsync()
         {
             try
             {
-                using var response = await _httpClient.GetAsync("https://catfact.ninja/fact");
-                if (!response.IsSuccessStatusCode)
-                {
-                    _logger.LogWarning("CatFacts API returned non-success status {StatusCode}", response.StatusCode);
-                    return FALLBACK;
-                }
+                var response = await _httpClient.GetFromJsonAsync<CatFactResponse>("https://catfact.ninja/fact");
+                if (!string.IsNullOrEmpty(response?.Fact))
+                    return (true, response.Fact);
 
-                await using var stream = await response.Content.ReadAsStreamAsync();
-                using var doc = await JsonDocument.ParseAsync(stream);
-                if (doc.RootElement.TryGetProperty("fact", out var factProp))
-                {
-                    return factProp.GetString() ?? FALLBACK;
-                }
+                return (false, "Could not fetch a cat fact at this time.");
+            }
+            catch
+            {
+                return (false, "Could not fetch a cat fact at this time.");
+            }
+        }
 
-                _logger.LogWarning("CatFacts API response did not contain 'fact' property.");
-                return FALLBACK;
-            }
-            catch (TaskCanceledException tce)
-            {
-                // Timeout or explicit cancellation
-                _logger.LogError(tce, "CatFacts API request timed out.");
-                return FALLBACK;
-            }
-            catch (HttpRequestException hre)
-            {
-                _logger.LogError(hre, "Network error while calling CatFacts API.");
-                return FALLBACK;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Unexpected error in CatFactService.");
-                return FALLBACK;
-            }
+        private class CatFactResponse
+        {
+            public string Fact { get; set; }
         }
     }
 }

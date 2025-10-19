@@ -23,31 +23,30 @@ namespace ProfileApi.Controllers
             _logger = logger;
         }
 
-        // Required path: /me
         [HttpGet("/me")]
         [Produces("application/json")]
         public async Task<IActionResult> GetMe()
         {
             _logger.LogInformation("GET /me called at {TimeUtc}", DateTime.UtcNow);
 
-            // fetch dynamic cat fact (graceful fallback inside service)
-            var fact = await _catFactService.GetRandomFactAsync();
+            var (success, fact) = await _catFactService.GetRandomFactAsync();
 
             var response = new
             {
-                status = "success", // per task requirement this must be "success"
+                status = success ? "success" : "error",
                 user = new
                 {
                     email = _profileOptions.Email,
                     name = _profileOptions.FullName,
                     stack = _profileOptions.Stack
                 },
-                timestamp = DateTime.UtcNow.ToString("o"), // ISO 8601 UTC
+                timestamp = DateTime.UtcNow.ToString("o"),
                 fact
             };
 
-            // Always return 200 OK (task acceptance requires response to be accessible and 200)
-            return Ok(response);
+            return success
+                ? Ok(response)
+                : StatusCode(StatusCodes.Status502BadGateway, response);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.RateLimiting;
 using ProfileApi.Models;
 using ProfileApi.Services;
 
@@ -18,6 +19,13 @@ builder.Services.AddHttpClient<CatFactService>(client =>
     // no base address; we call absolute URL in the service
     client.Timeout = TimeSpan.FromSeconds(5); // set reasonable timeout
 });
+
+builder.Services.AddRateLimiter(_ => _.AddFixedWindowLimiter("default", options =>
+{
+    options.PermitLimit = 10;
+    options.Window = TimeSpan.FromSeconds(10);
+    options.QueueLimit = 0;
+}));
 
 
 builder.Services.AddCors(options =>
@@ -48,6 +56,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 
