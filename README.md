@@ -1,6 +1,4 @@
-# HNG-13-PROFILE-
-
-Here’s a ready-to-paste `README.md` for your GitHub repo — fully aligned with the Stage 0 task requirements:
+# HNG-13-PROFILE-API-BACKEND
 
 ```markdown
 # Backend Wizards — Stage 0: Dynamic Profile Endpoint
