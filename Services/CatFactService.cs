@@ -19,8 +19,8 @@ namespace ProfileApi.Services
             try
             {
                 var response = await _httpClient.GetFromJsonAsync<CatFactResponse>("https://catfact.ninja/fact");
-                if (!string.IsNullOrEmpty(response?.Fact))
-                    return (true, response.Fact);
+                if (!string.IsNullOrEmpty(response?.fact))
+                    return (true, response.fact);
 
                 return (false, "Could not fetch a cat fact at this time.");
             }
@@ -32,7 +32,7 @@ namespace ProfileApi.Services
 
         private class CatFactResponse
         {
-            public string Fact { get; set; }
+            public string fact { get; set; }
         }
     }
 }

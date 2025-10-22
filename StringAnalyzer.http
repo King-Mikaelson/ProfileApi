@@ -9,7 +9,7 @@ POST {{StringAnalyzer_HostAddress}}/strings
 Content-Type: application/json
 
 {
-  "value":"pap"
+  "value":"papi"
 }
 
 ###

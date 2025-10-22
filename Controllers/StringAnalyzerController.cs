@@ -81,7 +81,7 @@ namespace StringAnalyzer.Controllers
 
             // No try/catch needed
             var analyzed = await _service.AnalyzeStringAsync(request.Value);
-            return CreatedAtAction(nameof(GetStringByValue), new { string_value = analyzed.Value }, analyzed);
+            return CreatedAtAction(nameof(GetStringByValue), new { string_value = analyzed.value }, analyzed);
         }
 
 

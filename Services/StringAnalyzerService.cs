@@ -38,13 +38,13 @@ namespace StringAnalyzer.Services
             // Compute properties
             var properties = new StringProperties
             {
-                Length = value.Length,
-                IsPalindrome = IsPalindrome(value.ToLower()),
-                UniqueCharacters = CountUniqueCharacters(value.ToLower()),
-                WordCount = value.Split(new[] { ' ', '\t', '\n', '\r' },
+                length = value.Length,
+                is_palindrome = IsPalindrome(value.ToLower()),
+                unique_characters = CountUniqueCharacters(value.ToLower()),
+                word_count = value.Split(new[] { ' ', '\t', '\n', '\r' },
                   StringSplitOptions.RemoveEmptyEntries).Length,
-                Sha256Hash = hashString,
-                CharacterFrequencyMap = BuildCharacterFrequencyMap(value.ToLower())
+                sha256_hash = hashString,
+                character_frequency_map = BuildCharacterFrequencyMap(value.ToLower())
             };
 
             // Save to database
@@ -52,12 +52,12 @@ namespace StringAnalyzer.Services
             {
                 Id = hashString,
                 Value = value,
-                Length = properties.Length,
-                IsPalindrome = properties.IsPalindrome,
-                UniqueCharacters = properties.UniqueCharacters,
-                WordCount = properties.WordCount,
-                Sha256Hash = properties.Sha256Hash,
-                CharacterFrequencyMapJson = JsonSerializer.Serialize(properties.CharacterFrequencyMap),
+                Length = properties.length,
+                IsPalindrome = properties.is_palindrome,
+                UniqueCharacters = properties.unique_characters,
+                WordCount = properties.word_count,
+                Sha256Hash = properties.sha256_hash,
+                CharacterFrequencyMapJson = JsonSerializer.Serialize(properties.character_frequency_map),
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -66,10 +66,10 @@ namespace StringAnalyzer.Services
 
             return new StringResponse
             {
-                Id = entity.Id,
-                Value = entity.Value,
-                Properties = properties,
-                CreatedAt = entity.CreatedAt
+                id = entity.Id,
+                value = entity.Value,
+                properties = properties,
+                created_at = entity.CreatedAt
             };
         }
 
@@ -142,9 +142,9 @@ namespace StringAnalyzer.Services
 
             return new StringListResponse
             {
-                Data = responseData,
-                Count = responseData.Count,
-                FiltersApplied = filtersApplied.Count > 0 ? filtersApplied : null
+                data = responseData,
+                count = responseData.Count,
+                filters_applied = filtersApplied.Count > 0 ? filtersApplied : null
             };
         }
 
@@ -202,12 +202,12 @@ namespace StringAnalyzer.Services
 
             var response = new NaturalLanguageResponse
             {
-                Data = responseData,
-                Count = responseData.Count,
-                InterpretedQuery = new InterpretedQuery
+                data = responseData,
+                count = responseData.Count,
+                interpreted_query = new InterpretedQuery
                 {
-                    Original = query,
-                    ParsedFilters = parsedFilters
+                    original = query,
+                    parsed_filters = parsedFilters
                 }
             };
 
@@ -227,18 +227,18 @@ namespace StringAnalyzer.Services
 
             return new StringResponse
             {
-                Id = entity.Id,
-                Value = entity.Value,
-                Properties = new StringProperties
+                id = entity.Id,
+                value = entity.Value,
+                properties = new StringProperties
                 {
-                    Length = entity.Length,
-                    IsPalindrome = entity.IsPalindrome,
-                    UniqueCharacters = entity.UniqueCharacters,
-                    WordCount = entity.WordCount,
-                    Sha256Hash = entity.Sha256Hash,
-                    CharacterFrequencyMap = frequencyMap
+                    length = entity.Length,
+                    is_palindrome = entity.IsPalindrome,
+                    unique_characters = entity.UniqueCharacters,
+                    word_count = entity.WordCount,
+                    sha256_hash = entity.Sha256Hash,
+                    character_frequency_map = frequencyMap
                 },
-                CreatedAt = entity.CreatedAt
+                created_at = entity.CreatedAt
             };
         }
 
@@ -251,18 +251,18 @@ namespace StringAnalyzer.Services
                 var frequencyMap = JsonSerializer.Deserialize<Dictionary<string, int>>(entity.CharacterFrequencyMapJson) ?? new Dictionary<string, int>();
                 result.Add(new StringResponse
                 {
-                    Id = entity.Id,
-                    Value = entity.Value,
-                    Properties = new StringProperties
+                    id = entity.Id,
+                    value = entity.Value,
+                    properties = new StringProperties
                     {
-                        Length = entity.Length,
-                        IsPalindrome = entity.IsPalindrome,
-                        UniqueCharacters = entity.UniqueCharacters,
-                        WordCount = entity.WordCount,
-                        Sha256Hash = entity.Sha256Hash,
-                        CharacterFrequencyMap = frequencyMap
+                        length = entity.Length,
+                        is_palindrome = entity.IsPalindrome,
+                        unique_characters = entity.UniqueCharacters,
+                        word_count = entity.WordCount,
+                        sha256_hash = entity.Sha256Hash,
+                        character_frequency_map = frequencyMap
                     },
-                    CreatedAt = entity.CreatedAt
+                    created_at = entity.CreatedAt
                 });
             }
             return result;
@@ -473,17 +473,17 @@ namespace StringAnalyzer.Services
 
             return new StringResponse
             {
-                Id = entity.Id,
-                Value = entity.Value,
-                CreatedAt = entity.CreatedAt,
-                Properties = new StringProperties
+                id = entity.Id,
+                value = entity.Value,
+                created_at = entity.CreatedAt,
+                properties = new StringProperties
                 {
-                    Length = entity.Length,
-                    IsPalindrome = entity.IsPalindrome,
-                    UniqueCharacters = entity.UniqueCharacters,
-                    WordCount = entity.WordCount,
-                    Sha256Hash = entity.Sha256Hash,
-                    CharacterFrequencyMap = frequencyMap
+                    length = entity.Length,
+                    is_palindrome = entity.IsPalindrome,
+                    unique_characters = entity.UniqueCharacters,
+                    word_count = entity.WordCount,
+                    sha256_hash = entity.Sha256Hash,
+                    character_frequency_map = frequencyMap
                 }
             };
         }

@@ -3,41 +3,41 @@
 // Main response for a single string
 public class StringResponse
 {
-    public string Id { get; set; } = string.Empty;
-    public string Value { get; set; } = string.Empty;
-    public StringProperties Properties { get; set; } = new();
-    public DateTime CreatedAt { get; set; }
+    public string id { get; set; } = string.Empty;
+    public string value { get; set; } = string.Empty;
+    public StringProperties properties { get; set; } = new();
+    public DateTime created_at { get; set; }
 }
 
 // Nested properties object
 public class StringProperties
 {
-    public int Length { get; set; }
-    public bool IsPalindrome { get; set; }
-    public int UniqueCharacters { get; set; }
-    public int WordCount { get; set; }
-    public string Sha256Hash { get; set; } = string.Empty;
-    public Dictionary<string, int> CharacterFrequencyMap { get; set; } = new();
+    public int length { get; set; }
+    public bool is_palindrome { get; set; }
+    public int unique_characters { get; set; }
+    public int word_count { get; set; }
+    public string sha256_hash { get; set; } = string.Empty;
+    public Dictionary<string, int> character_frequency_map { get; set; } = new();
 }
 
 // Response for GET /strings (list with filters)
 public class StringListResponse
 {
-    public List<StringResponse> Data { get; set; } = new();
-    public int Count { get; set; }
-    public object? FiltersApplied { get; set; }
+    public List<StringResponse> data { get; set; } = new();
+    public int count { get; set; }
+    public object? filters_applied { get; set; }
 }
 
 // Response for natural language filtering
 public class NaturalLanguageResponse
 {
-    public List<StringResponse> Data { get; set; } = new();
-    public int Count { get; set; }
-    public InterpretedQuery InterpretedQuery { get; set; } = new();
+    public List<StringResponse> data { get; set; } = new();
+    public int count { get; set; }
+    public InterpretedQuery interpreted_query { get; set; } = new();
 }
 
 public class InterpretedQuery
 {
-    public string Original { get; set; } = string.Empty;
-    public Dictionary<string, object> ParsedFilters { get; set; } = new();
+    public string original { get; set; } = string.Empty;
+    public Dictionary<string, object> parsed_filters { get; set; } = new();
 }
