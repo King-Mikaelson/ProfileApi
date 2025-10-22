@@ -1,4 +1,4 @@
-﻿namespace ProfileApi.Models;
+﻿namespace StringAnalyzer.Models;
 
 public class ProfileOptions
 {

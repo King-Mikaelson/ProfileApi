@@ -1,0 +1,28 @@
+﻿@StringAnalyzer_HostAddress = https://localhost:7218
+
+
+GET {{StringAnalyzer_HostAddress}}/strings
+
+###
+
+POST {{StringAnalyzer_HostAddress}}/strings
+Content-Type: application/json
+
+{
+  "value":"pap"
+}
+
+###
+
+@string_value=pap
+GET {{StringAnalyzer_HostAddress}}/strings/{{string_value}}
+
+###
+@string_value=pap
+DELETE {{StringAnalyzer_HostAddress}}/strings/{{string_value}}
+
+###
+@query=give me random stuff
+GET {{StringAnalyzer_HostAddress}}/strings/filter-by-natural-language?query={{query}}
+
+###

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ProfileApi.Models;
 using ProfileApi.Services;
 using Microsoft.Extensions.Logging;
+using StringAnalyzer.Models;
 
 namespace ProfileApi.Controllers
 {
